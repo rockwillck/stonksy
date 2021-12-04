@@ -112,7 +112,12 @@ def buy(tag):
         except:
             return redirect(f"/login/buy{tag}")
         company = get(0, tag)
-        maxPurchase = math.floor(trader.cash/company.price) if math.floor(trader.cash/company.price) <= company.open else company.open
+        try:
+            maxPurchase = math.floor(trader.cash/company.price) if math.floor(trader.cash/company.price) <= company.open else company.open
+        except:
+            company.price += 0.001
+            maxPurchase = math.floor(trader.cash/company.price) if math.floor(trader.cash/company.price) <= company.open else company.open
+        
         return render_template("buy.html", company=company, max=maxPurchase)
 
 @app.route("/sell<tag>", methods=["POST", "GET"])
@@ -153,6 +158,10 @@ def create():
         for company in companies:
             takenTags.append(company.tag)
         return render_template("create.html", cash=trader.cash, takenTags=takenTags)
+
+@app.route("/graph/<tag>")
+def graph(tag):
+    return render_template("graph.html", company=get(0, tag=tag))
 
 @app.errorhandler(404)
 def page_not_found(e):

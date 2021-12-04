@@ -31,11 +31,26 @@
         <div id="demo" class="collapse">
           {% set i = 0 %}
           {% for stock in traderStocks %}
-          <p>{{stock.tag}} x {{numbers[i]}} - ⓢ {{ (100*stock.price*numbers[i])|round/100 }} (ⓢ {{(100*stock.price)|round/100}} each)</p>
+          <p><button class="btn-hover color-1" onclick="document.getElementById('graphPopup{{stock.tag}}').style.display='block'" style="height:35px; width:70px">{{stock.tag}}</button> x {{numbers[i]}} - ⓢ {{ (100*stock.price*numbers[i])|round/100 }} (ⓢ {{(100*stock.price)|round/100}} each)</p>
           {% set i = i + 1 %}
           {% endfor %}
         </div>
     </div>
+
+    {% for stock in traderStocks %}
+    <div id="graphPopup{{stock.tag}}" class="w3-modal">
+      <div class="w3-modal-content w3-animate-top w3-card-4">
+        <header class="w3-container w3-teal"> 
+          <span onclick="document.getElementById('graphPopup{{stock.tag}}').style.display='none'" 
+          class="w3-button w3-display-topright">&times;</span>
+          <h2 style="margin-top:10px; margin-bottom:10px;">{{stock.tag}} - ⓢ {{(100*stock.price)|round/100}}</h2>
+        </header>
+        <div class="w3-container" style="text-align:center;">
+          <embed src="/graph/{{stock.tag}}" style="height:200px"></embed>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
 
     <div class="right">
       <div class="card" id="chartContainer" style="width: 100%;">

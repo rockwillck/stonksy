@@ -1,0 +1,88 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+    canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:10px;
+    margin-bottom: 10px;
+    display: block;
+    max-width: 90%;
+    height:100%
+}
+</style>
+<canvas id="myChart"></canvas>
+
+<!-- To hold some data for js -->
+<input type="hidden" id="traderStocks" value="[{{company.tag}}]"/>
+<input type="hidden" id="{{company.tag}}" value="{{company.prices}}"/>
+<input type="hidden" id="{{company.tag}}dates" value="{{company.dates}}"/>
+
+<script>
+Array.prototype.find = function(el) {
+  index = null
+  for (let i = 0; i < this.length; i++) {
+    if (this[i] == el) {
+      index = i
+      break
+    }
+  }
+  return index
+}
+
+function strtolist(string) {
+  let tentList = string.replace("[", "").replace("]", "").split(",")
+  tentList.forEach((element, index) => {
+    tentList[index] = element.replace(" ", "").replace("'", "").replace("'", "")
+  })
+  return tentList
+}
+
+// get all trader stocks
+var stocks = strtolist((document.querySelector("#traderStocks").value))
+
+// filter out duplicate stocks - only need to graph each one once
+let newStocks = []
+stocks.forEach((element, index) => {
+  if (stocks.find(element) == index) {
+    newStocks.push(element)
+  }
+})
+stocks = newStocks
+
+// create each stock dataset
+var datasets = []
+stocks.forEach((stock) => {
+  let prices = strtolist((document.querySelector("#"+stock).value))
+  let dates = strtolist((document.querySelector("#"+stock+"dates").value))
+  data = []
+  prices.forEach((price, index) => {
+    data.push({
+      x: Number(dates[index]),
+      y: Number(price)
+    })
+  })
+  borderColor = (Number(prices[0]) - Number(prices[prices.length - 1]) > 0) ? "red" : "green"
+  datasets.push({
+        label: stock,
+        data: data,
+        borderColor: borderColor,
+        fill: false
+    })
+})
+
+new Chart("myChart", {
+  type: "scatter",
+  data: {
+    datasets: datasets
+  },
+  options: {
+    legend: {display: false},
+    title: {display: true, text:stocks[0]},
+    animation: {
+        duration: 0
+    }
+  }
+}); 
+</script>
