@@ -49,6 +49,7 @@
 <input type="hidden" id="traderStocks" value="{{trader.stocks}}"/>
 {% for company in traderStocks %}
 <input type="hidden" id="{{company.tag}}" value="{{company.prices}}"/>
+<input type="hidden" id="{{company.tag}}dates" value="{{company.dates}}"/>
 {% endfor %}
 
 <script>
@@ -70,11 +71,11 @@ function strtolist(string) {
   })
   return tentList
 }
-if (document.querySelector("#traderStocks").value == "[]") {
-let cContainer = document.getElementById("chartContainer")
-cContainer.innerHTML = "<h1 style='color:black; margin:10px;'>No stocks to chart.</h1>"
-} else {
-let stocks = strtolist((document.querySelector("#traderStocks").value))
+
+// get all trader stocks
+var stocks = strtolist((document.querySelector("#traderStocks").value))
+
+// filter out duplicate stocks - only need to graph each one once
 let newStocks = []
 stocks.forEach((element, index) => {
   if (stocks.find(element) == index) {
@@ -82,39 +83,39 @@ stocks.forEach((element, index) => {
   }
 })
 stocks = newStocks
-var xValues = []
+
+// create each stock dataset
 var datasets = []
 stocks.forEach((stock) => {
   let prices = strtolist((document.querySelector("#"+stock).value))
-  if (prices.length > xValues.length) {
-    prices.forEach((x) => {
-      xValues.push("")
+  let dates = strtolist((document.querySelector("#"+stock+"dates").value))
+  data = []
+  prices.forEach((price, index) => {
+    data.push({
+      x: Number(dates[index]),
+      y: Number(price)
     })
-  }
-  borderColor = ["blue", "pink", "purple"][Math.floor(3*Math.random())]
+  })
+  borderColor = (Number(prices[0]) - Number(prices[prices.length - 1]) > 0) ? "red" : "green"
   datasets.push({
         label: stock,
-        data: prices,
+        data: data,
         borderColor: borderColor,
         fill: false
     })
 })
-if (stocks == "") {
-  datasets = []
-}
 
 new Chart("myChart", {
-  type: "line",
+  type: "scatter",
   data: {
-    labels: xValues,
     datasets: datasets
   },
   options: {
     legend: {display: true},
+    title: {display: true, text:"Your Stocks"}
   }
 }); 
-}
 </script>
 {% endblock %}
 {% block helpTitle %}Dashboard{% endblock %}
-{% block description %}Your dashboard is the hub of Stonksy. It's where you can see your balance, check your stocks, obsess over graphs, and nerd out over numbers. Throughout the site, you'll be redirected to the dashboard to see your latest purchase or your cash balance. Explore, learn, trade.{% endblock %}
+{% block description %}Your dashboard is the hub of Stonksy. It's where you can see your balance, check your stocks, obsess over graphs, and nerd out over numbers. The graph shows the lifetime changes in the stocks you own. Throughout the site, you'll be redirected to the dashboard to see your latest purchase or your cash balance.{% endblock %}

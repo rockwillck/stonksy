@@ -138,7 +138,7 @@ def sell(tag):
 def create():
     if request.method == "POST":
         receiveVol = math.floor(1000/(10000/int(request.form["volume"])))
-        newComp = Company(name=request.form["name"], volume=int(request.form["volume"]), askingPrice=10000/int(request.form["volume"]), available=(int(request.form["volume"])-receiveVol), prices=[])
+        newComp = Company(name=request.form["name"], volume=int(request.form["volume"]), askingPrice=10000/int(request.form["volume"]), available=(int(request.form["volume"])-receiveVol), prices=[], dates=[])
         trader = get(1, session["user"])
         trader.cash -= 1000
         for i in range(receiveVol):

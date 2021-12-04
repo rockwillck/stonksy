@@ -5,6 +5,7 @@ from os import listdir
 from os.path import isfile, join, isdir
 import time
 import random
+import dating
 
 companies = []
 traders = []
@@ -59,13 +60,16 @@ class Trader:
 
 def storeCompany(company):
     prices = ""
+    i = 0
     for price in company.prices:
         prices += "," + str(price)
+        prices += "," + str(company.dates[i])
+        i += 1
     companyData = f"{company.name},{company.tag},{company.volume},{company.net},{company.open}{prices}"
     txtools.writeTxt1(f"data/companies/{company.tag}", companyData)
 
 class Company:
-    def __init__(self, name:str, volume:int, askingPrice:float, available:int, prices:list):
+    def __init__(self, name:str, volume:int, askingPrice:float, available:int, prices:list, dates:list):
         self.startingPrice = askingPrice
         self.name = name
         name = re.sub(r'[^a-zA-Z0-9]', '', name)
@@ -78,8 +82,10 @@ class Company:
         self.open = available
         self.url = f"/stockPrice/{self.tag}"
         self.prices = prices
+        self.dates = dates
         if len(self.prices) == 0:
             self.prices.append(self.price)
+            self.dates.append(dating.date())
         storeCompany(self)
         companies.append(self)
     def buy(self, volume:int):
@@ -88,6 +94,7 @@ class Company:
             self.price = self.net/self.volume
             self.open -= volume
             self.prices.append(self.price)
+            self.dates.append(dating.date())
         else:
             return 0
         storeCompany(self)
@@ -96,6 +103,7 @@ class Company:
         self.price = self.net/self.volume
         self.open += volume
         self.prices.append(self.price)
+        self.dates.append(dating.date())
         storeCompany(self)
 
 def updateComps():
@@ -104,12 +112,16 @@ def updateComps():
         fN = fN.replace(".txt", "")
         companyDataList = txtools.readTxtStr(f"data/companies/{fN}").split(",")
         prices = []
+        dates = []
         i = 0
         for item in companyDataList:
             if i > 4:
-                prices.append(float(item))
+                if i % 2 == 1:
+                    prices.append(float(item))
+                else:
+                    dates.append(int(item))
             i += 1
-        Company(companyDataList[0], int(companyDataList[2]), float(companyDataList[3])/float(companyDataList[2]), int(companyDataList[4]), prices)
+        Company(companyDataList[0], int(companyDataList[2]), float(companyDataList[3])/float(companyDataList[2]), int(companyDataList[4]), prices, dates)
 
 def updateTraders():
     onlydirs = [f for f in listdir("data/traders") if isdir(join("data/traders", f))]

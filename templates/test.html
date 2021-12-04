@@ -1,10 +1,32 @@
-{% extends "base.html" %}
-{% block title %}User Dashboard{% endblock %}
-{% block content %}
-<div data-aos="fade-right">
-    <h1 style="text-align:center;">
-        Stonksy
-    </h1>
-</div>
-
-{% endblock %}
+if (document.querySelector("#traderStocks").value == "[]") {
+    let cContainer = document.getElementById("chartContainer")
+    cContainer.innerHTML = "<h1 style='color:black; margin:10px;'>No stocks to chart.</h1>"
+    } else {
+    let stocks = strtolist((document.querySelector("#traderStocks").value))
+    let newStocks = []
+    stocks.forEach((element, index) => {
+      if (stocks.find(element) == index) {
+        newStocks.push(element)
+      }
+    })
+    stocks = newStocks
+    var xValues = []
+    var datasets = []
+    stocks.forEach((stock) => {
+      let prices = strtolist((document.querySelector("#"+stock).value))
+      if (prices.length > xValues.length) {
+        prices.forEach((x) => {
+          xValues.push("")
+        })
+      }
+      borderColor = ["blue", "pink", "purple"][Math.floor(3*Math.random())]
+      datasets.push({
+            label: stock,
+            data: prices,
+            borderColor: borderColor,
+            fill: false
+        })
+    })
+    if (stocks == "") {
+      datasets = []
+    }
