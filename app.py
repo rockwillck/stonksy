@@ -21,7 +21,21 @@ def index():
 
 @app.route("/trade")
 def trade():
-    return render_template("trade.html", companies=companies)
+    return redirect("/trade/changePos")
+
+@app.route("/trade/<pattern>")
+def tradeP(pattern):
+    if pattern == "changePos":
+        companiesPass = sorted(companies, reverse=True, key=lambda company : ((company.price - company.prices[0])/company.prices[0]))
+    elif pattern == "changeNeg":
+        companiesPass = sorted(companies, reverse=False, key=lambda company : ((company.price - company.prices[0])/company.prices[0]))
+    elif pattern == "pricePos":
+        companiesPass = sorted(companies, reverse=True, key=lambda company : company.price)
+    elif pattern == "priceNeg":
+        companiesPass = sorted(companies, reverse=False, key=lambda company : company.price)
+    else:
+        companiesPass = sorted(companies, reverse=True, key=lambda company : ((company.price - company.prices[0])/company.prices[0]))
+    return render_template("trade.html", companies=companiesPass)
 
 @app.route("/stockPrice/<tag>")
 def sP(tag):
