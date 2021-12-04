@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<style>
+.helpbutton {
+  border: none;
+  background-color: transparent;
+  width: 96px;
+  height: 72px;
+  background-image: url('https://docs.google.com/drawings/d/e/2PACX-1vRf8TrQHnKSo48mLwiUlVwqfhztUDUWT1DDGttOTcVyd_avt3D0aL3CwcmhPPAP6kTP7A9a6XaVRc9k/pub?w=960&h=720');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22.625px;
+  height: 36px;
+  border: 0;
+  background-image: url('https://docs.google.com/drawings/d/e/2PACX-1vTOWL86q2FGiAeMxFamta4kgiA-OcmKS8AlhvqEyk70GJDkEqChzwx0hvMVqh_zELIAukB2_d-kThz1/pub?w=181&h=288');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 22.625px;
+  height: 36px;
+  border: 0;
+  background-image: url('https://docs.google.com/drawings/d/e/2PACX-1vTOWL86q2FGiAeMxFamta4kgiA-OcmKS8AlhvqEyk70GJDkEqChzwx0hvMVqh_zELIAukB2_d-kThz1/pub?w=181&h=288');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.splitscreen {
+    display:flex;
+}
+.splitscreen .left {
+    flex: 0.25;
+}
+.splitscreen .right {
+    flex: 1;
+}
+
+.buttons {
+    margin: 10%;
+    text-align: center;
+}
+
+.btn-hover {
+    width: 100px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    height: 55px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btn-hover:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btn-hover:focus {
+    outline: none;
+}
+
+.btn-hover.color-1 {
+    background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+}
+.btn-hover.color-2 {
+    background-image: linear-gradient(to right, #f5ce62, #e43603, #fa7199, #e85a19);
+    box-shadow: 0 4px 15px 0 rgba(229, 66, 10, 0.75);
+}
+.btn-hover.color-3 {
+    background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, #8E37D7);
+    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+}
+.btn-hover.color-4 {
+    background-image: linear-gradient(to right, #fc6076, #ff9a44, #ef9d43, #e75516);
+    box-shadow: 0 4px 15px 0 rgba(252, 104, 110, 0.75);
+}
+.btn-hover.color-5 {
+    background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+    box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+}
+.btn-hover.color-6 {
+    background-image: linear-gradient(to right, #009245, #FCEE21, #00A8C5, #D9E021);
+    box-shadow: 0 4px 15px 0 rgba(83, 176, 57, 0.75);
+}
+.btn-hover.color-7 {
+    background-image: linear-gradient(to right, #6253e1, #852D91, #A3A1FF, #F24645);
+    box-shadow: 0 4px 15px 0 rgba(126, 52, 161, 0.75);
+}
+.btn-hover.color-8 {
+    background-image: linear-gradient(to right, #29323c, #485563, #2b5876, #4e4376);
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+}
+.btn-hover.color-9 {
+    background-image: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+.btn-hover.color-10 {
+        background-image: linear-gradient(to right, #ed6ea0, #ec8c69, #f7186a , #FBB03B);
+    box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
+}
+.btn-hover.color-11 {
+       background-image: linear-gradient(to right, #eb3941, #f15e64, #e14e53, #e2373f);  box-shadow: 0 5px 15px rgba(242, 97, 103, .4);
+}
+</style>
+<style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: linear-gradient(135deg, purple, blue, green, pink);
+        background-repeat: no-repeat;
+        background-attachment: fixed;  
+        background-size: cover;
+        color:white !important;
+    }
+    
+    .nav-link {
+      display: inline-block;
+      background-image: linear-gradient(135deg, purple, pink);
+      color: white !important;
+      text-align: center;
+      padding: 14px;
+      text-decoration: none;
+      font-size: 17px;
+      border-radius: 50px;
+      margin-top:4px;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+    
+    .nav-link:hover {
+      background-image: linear-gradient(135deg, blue, lightgreen);
+    }
+    .dropdown-item:hover {
+      background-image: linear-gradient(135deg, purple, pink);
+      color: white !important;
+    }
+</style>
+<head>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block refresh %}{% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="https://docs.google.com/drawings/d/e/2PACX-1vTWvYxyeHJyGWVohpjmK_IZ4VdfgJe9HDGnceu9uaq7jOhmXoT-uZKDucPcgsXECM3VKEfITTJuh0yB/pub?w=288&h=288"/>
+</head>
+    <nav class="navbar navbar-expand-lg navbar-light white" style="position: -webkit-sticky; position: sticky; top: 0px; z-index: 1;">
+        <a href="/"><img src="https://docs.google.com/drawings/d/e/2PACX-1vTOWL86q2FGiAeMxFamta4kgiA-OcmKS8AlhvqEyk70GJDkEqChzwx0hvMVqh_zELIAukB2_d-kThz1/pub?w=181&h=288" alt="" style="width:22.625px; height:36px; margin-right:10px"></a>
+        <a class="navbar-brand" style="padding-right: 10px; padding-left: 10px; border-radius: 50px; color:white; background-image: linear-gradient(135deg, purple, pink);" href="/">Stonksy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="activeDiv">
+        <ul class="navbar-nav mr-auto">
+                <a class="nav-link" href="/trade">Trade</a>
+                <a class="nav-link" href="/create">IPO</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Profile
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if session["loggedin"] %}
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                    <a class="dropdown-item" href="/dash">Stocks</a>
+                    {% endif %}
+                    {% if not session["loggedin"] %}
+                    <a class="dropdown-item" href="/login/dash">Login</a>
+                    <a class="dropdown-item" href="/register/dash">Register</a>
+                    {% endif %}
+                </div>
+              </li>
+            </div>
+        </ul>
+        </div>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <body>
+        <script>
+            AOS.init();
+          </script>
+        {% block content %}{% endblock %}
+        <div class="w3-container">
+            <button class="helpbutton" onclick="document.getElementById('id01').style.display='block'"></button>
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-animate-top w3-card-4">
+                  <header class="w3-container w3-teal"> 
+                    <span onclick="document.getElementById('id01').style.display='none'" 
+                    class="w3-button w3-display-topright">&times;</span>
+                    <h2 style="margin-top:10px; margin-bottom:10px;">{% block helpTitle %}{% endblock %}</h2>
+                  </header>
+                  <div class="w3-container">
+                    <p style="color:black; text-align:left; font-size: 100%; margin-top:10px; margin-bottom:10px;">{% block description %}{% endblock %}</p>
+                  </div>
+                </div>
+              </div>
+            
+        </div>
+    </body>
+    </div>
+</html>

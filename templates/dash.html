@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}User Dashboard{% endblock %}
+{% block content %}
+<style>
+    canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:10px;
+    margin-bottom: 10px;
+    display: block;
+    max-width: 90%;
+    height:100%
+}
+</style>
+<div class="container-fluid">
+  <div class="splitscreen">
+    <div class="left">
+        <h1>Trader Stats</h1>
+        <h2>Net Worth</h2>
+        <p>ⓢ {{ (100*netWorth)|round/100 }}</p>
+        <h3>Buying Power</h3>
+        <p>ⓢ {{ (100*trader.cash)|round/100 }}</p>
+        <div style="display:flex;">
+          <h3 style="flex:0.5">Stocks</h3>
+          <div style="flex:1;">
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">↯</button>  
+          </div>
+        </div>
+        <div id="demo" class="collapse">
+          {% set i = 0 %}
+          {% for stock in traderStocks %}
+          <p>{{stock.tag}} x {{numbers[i]}} - ⓢ {{ (100*stock.price*numbers[i])|round/100 }} (ⓢ {{(100*stock.price)|round/100}} each)</p>
+          {% set i = i + 1 %}
+          {% endfor %}
+        </div>
+    </div>
+
+    <div class="right">
+      <div class="card" id="chartContainer" style="width: 100%;">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- To hold some data for js -->
+<input type="hidden" id="traderStocks" value="{{trader.stocks}}"/>
+{% for company in traderStocks %}
+<input type="hidden" id="{{company.tag}}" value="{{company.prices}}"/>
+{% endfor %}
+
+<script>
+Array.prototype.find = function(el) {
+  index = null
+  for (let i = 0; i < this.length; i++) {
+    if (this[i] == el) {
+      index = i
+      break
+    }
+  }
+  return index
+}
+
+function strtolist(string) {
+  let tentList = string.replace("[", "").replace("]", "").split(",")
+  tentList.forEach((element, index) => {
+    tentList[index] = element.replace(" ", "").replace("'", "").replace("'", "")
+  })
+  return tentList
+}
+if (document.querySelector("#traderStocks").value == "[]") {
+let cContainer = document.getElementById("chartContainer")
+cContainer.innerHTML = "<h1 style='color:black; margin:10px;'>No stocks to chart.</h1>"
+} else {
+let stocks = strtolist((document.querySelector("#traderStocks").value))
+let newStocks = []
+stocks.forEach((element, index) => {
+  if (stocks.find(element) == index) {
+    newStocks.push(element)
+  }
+})
+stocks = newStocks
+var xValues = []
+var datasets = []
+stocks.forEach((stock) => {
+  let prices = strtolist((document.querySelector("#"+stock).value))
+  if (prices.length > xValues.length) {
+    prices.forEach((x) => {
+      xValues.push("")
+    })
+  }
+  borderColor = ["blue", "pink", "purple"][Math.floor(3*Math.random())]
+  datasets.push({
+        label: stock,
+        data: prices,
+        borderColor: borderColor,
+        fill: false
+    })
+})
+if (stocks == "") {
+  datasets = []
+}
+
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: datasets
+  },
+  options: {
+    legend: {display: true},
+  }
+}); 
+}
+</script>
+{% endblock %}
+{% block helpTitle %}Dashboard{% endblock %}
+{% block description %}Your dashboard is the hub of Stonksy. It's where you can see your balance, check your stocks, obsess over graphs, and nerd out over numbers. Throughout the site, you'll be redirected to the dashboard to see your latest purchase or your cash balance. Explore, learn, trade.{% endblock %}

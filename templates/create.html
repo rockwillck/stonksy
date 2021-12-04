@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Trade{% endblock %}
+{% block content %}
+<div class="container-fluid" data-aos="flip-up">
+    <form style="margin:10px;" method="POST">
+        <h3 style="margin:10px;">Stock Details</h3>
+        <div class="form-group" style="margin:8px">
+            <label for="name" id="tagTag">Company Name (Tag: )</label>
+            <input class="form-control" id="name" placeholder="Enter name" name="name" oninput="checkValid()" required>
+        </div>
+        <div class="form-group" style="margin:8px">
+            <label for="volume" id="volumeTag">Volume (1 stock)</label>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="1000" value="1" class="slider" id="volume" name="volume">
+            </div>
+        </div>
+        <p></p>
+        <h3 style="margin:10px;">Net Prices</h3>
+        <p style="margin:10px;" id="priceTag">Stock Price: ⓢ 10000</p>
+        <p style="margin:10px">Total Valuation: ⓢ 10000</p>
+        <h3 style="margin:10px;">Founder's Cut</h3>
+        <p style="margin:10px;">You will pay ⓢ 1000.</p>
+        <p style="margin:10px;" id="founderTag">You will receive 1 stock.</p>
+        <p style="margin:10px;" id="startupTag">Any money not immediately compensated in stock options is startup capital. You have provided ⓢ 0 in startup capital.</p>
+        <br>
+        {% if cash <= 1000 %}
+            <button type="submit" class="btn-hover color-7" style="width:250px; opacity:50%;" id="ipoDisabled" disabled>Insufficient Funds</button>
+        {% else %}
+        <div id="subButtons">
+            <button type="submit" class="btn-hover color-7" style="width:250px;" id="ipoConfirm">Confirm IPO</button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+<input type="hidden" id="takenTags" value="{{takenTags}}"/>
+<script>
+    var slider = document.getElementById("volume");
+    try {
+        var output = document.getElementById("volumeTag");
+        var pOutput = document.getElementById("priceTag");
+        var fOutput = document.getElementById("founderTag")
+        var sOutput = document.getElementById("startupTag")
+        if (slider.value == 1) {
+            output.innerHTML = "Volume (" + slider.value + " stock)";
+            fOutput.innerHTML = "You will receive " + Math.floor(1000/(10000/slider.value)) + " stock.";
+        } else {
+            output.innerHTML = "Volume (" + slider.value + " stocks)";
+            fOutput.innerHTML = "You will receive " + Math.floor(1000/(10000/slider.value)) + " stocks.";
+        }
+        pOutput.innerHTML = "Stock Price: ⓢ " + (Math.round(100 * 10000/slider.value)/100);
+        sOutput.innerHTML = "Any money not immediately compensated in stock options is startup capital. You have provided ⓢ " + (1000 - 10000/slider.value*Math.floor(1000/(10000/slider.value))) + " in startup capital."
+    } catch(err) {}
+    
+    slider.oninput = function() {
+        if (slider.value == 1) {
+            output.innerHTML = "Volume (" + slider.value + " stock)";
+            fOutput.innerHTML = "You will receive " + Math.floor(1000/(10000/slider.value)) + " stock.";
+        } else {
+            output.innerHTML = "Volume (" + slider.value + " stocks)";
+            fOutput.innerHTML = "You will receive " + Math.floor(1000/(10000/slider.value)) + " stocks.";
+        }
+        pOutput.innerHTML = "Stock Price: ⓢ " + (Math.round(100 * 10000/slider.value)/100);
+        sOutput.innerHTML = "Any money not immediately compensated in stock options is startup capital. You have provided ⓢ " + Math.round((1000 - 10000/slider.value*Math.floor(1000/(10000/slider.value)))*100)/100 + " in startup capital."
+    }
+
+    function checkValid() {
+        let tagTag = document.getElementById("tagTag")
+        let content = document.getElementById("name").value.replace(/[^0-9A-Z]+/gi,"")
+        if (content.length < 2) {
+            content = content + "NX"
+        }
+        let takenTags = document.getElementById("takenTags").value
+        const curTag = (content[0] + content[Math.floor(content.length/2)] + content[Math.ceil(content.length/2)] + content[content.length - 1]).toUpperCase()
+        tagTag.innerHTML = "Company Name (Tag: " + curTag + ")"
+        try {
+            if (takenTags.includes(curTag)) {
+                let buttonGroup = document.getElementById("subButtons")
+                buttonGroup.innerHTML = "<button type='submit' class='btn-hover color-7' style='width:250px; opacity:50%;' id='ipoDisabled' disabled>Tag Already Taken</button>"
+            } else {
+                let buttonGroup = document.getElementById("subButtons")
+                buttonGroup.innerHTML = "<button type='submit' class='btn-hover color-7' style='width:250px;' id='ipoConfirm'>Confirm IPO</button>"
+            }
+        } catch(err) {}
+    }
+</script>
+{% endblock %}
+{% block helpTitle %}IPO{% endblock %}
+{% block description %}In real life, companies apply to get listed on the stock market once they grow to a substantial size. They do this for several reasons ranging from publicity to a need for new directors. In our system, any individual can create and IPO a company for ⓢ 1,000. The company automatically has a ⓢ 10,000 valuation. You then get to choose the name of the company, given that the tag generated from that name (like SparkPlug -> SKPG) is not taken. Then, you choose the volume of stocks. This is the numbers of stocks the company will have. The valuation of the company doesn't change - the number of stocks x the stock price will be ⓢ 10,000 until someone buys or sells the stock - but the stock price does. The more stocks you have, the less each stock is worth. Finally, you get up to ⓢ 1,000 worth of stock - if it doesn't match up to a whole number of stocks, the remaining money of the ⓢ 1,000 will be used as startup capital. Once you click "Confirm IPO," your new company will be listed!{% endblock %}

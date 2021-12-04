@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<style>
+    h1 {
+        font-size:200px; 
+        text-align:center;
+    }
+    h3 {
+        font-size:50px; 
+        text-align:center;
+    }
+    h5 {
+        font-size:100px; 
+        text-align:center;
+    }
+    p {
+        font-size:25px;
+        text-align:center;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .zoom {
+        transition: transform .2s; /* Animation */
+    }
+    .zoom:hover {
+      transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+</style>
+<div class="container-fluid">
+    <div data-aos="zoom-out" style="margin-top:10%">
+    <h1>{{appTag}}</h1>
+    </div>
+    <div data-aos="zoom-out" data-aos-delay="300">
+        <h5 style="text-align:center;">{{appName}}</h5>
+    </div>
+    <div data-aos="fade-right" style="margin-top:45%">
+        <h3>What is it?</h3>
+    </div>
+    <div data-aos="fade-right" data-aos-delay="300">
+        <p>{{appName}} is an educational stock market simulator. It uses a simplified supply-demand model to demonstrate how the real stock market works.</p>
+    </div>
+    <div data-aos="fade-right" style="margin-top:45%">
+        <h3>How does it work?</h3>
+    </div>
+    <div data-aos="fade-right" data-aos-delay="300">
+        <p>Buy stocks, trade companies, and increase your fortunes... or lose everything and go into debt.</p>
+    </div>
+    <div data-aos="fade-right" style="margin-top:45%">
+        <h3>But... how does it work?</h3>
+    </div>
+    <div data-aos="fade-right" data-aos-delay="300">
+        <p>Written in Python, {{appName}} uses supply-demand (a key business concept). In the real stock market, the number of sellers and buyers determines how the market fluctuates. In {{appName}}, the amount of buys and sells dictates the movement of prices.</p>
+    </div>
+    <div data-aos="fade-right" style="margin-top:45%;">
+        <h3>How do I start?</h3>
+    </div>
+    <div data-aos="fade-right" data-aos-delay="300" style="margin-bottom:45%">
+        <p>Just make an account and get started!</p>
+    </div>
+    <div data-aos="flip-left">
+        <h3>Socials</h3>
+    </div>
+    &nbsp;
+    <div style="text-align: center;" data-aos="zoom-in">
+            <a href="mailto: will.choi.kim@gmail.com">
+                <img class="zoom" src="https://docs.google.com/drawings/d/e/2PACX-1vRbKN46nSl9HUy6Wb_KndWndb0InF4RqOvif6aRb5UNtZ-GSYFrP84Oj96ZUVY6-Dw-E-y8qAaF_oF9/pub?w=960&h=720" style="width:150px;" />
+            </a>
+            <a href="https://discord.gg/h33RPreXux">
+                <img class="zoom" src="https://docs.google.com/drawings/d/e/2PACX-1vStXKWodIHh5Y1ULUitbTiaBiXJ7fjcvzXNYgk47melfrTt6sEV8hfRXmNS7d4V49vZ8L82qK6yZ7qr/pub?w=960&h=720" style="width:150px;" />
+            </a>
+        </div>
+    <p style="margin-bottom:45%"></p>
+</div>
+{% endblock %}
+{% block helpTitle %}The Help Page{% endblock %}
+{% block description %}This is the help page you'll see on every {{appName}} page. If you're ever stuck or don't understand something, just click the help button.{% endblock %}

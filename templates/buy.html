@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Trade{% endblock %}
+{% block content %}
+<div class="container-fluid" data-aos="flip-up">
+    <embed src="{{company.url}}" style="width:100%; height: 215px; margin-top:10px; margin-left:10px;"></embed>
+    <form style="margin:10px;" method="POST">
+        <div class="form-group" style="margin:8px">
+            {% if max != 1 %}
+            <label for="buyRange">Quantity (maximum {{max}} stocks):</label>
+            {% else %}
+            <label for="buyRange">Quantity (maximum {{max}} stock):</label>
+            {% endif %}
+            <div class="slidecontainer">
+                <input type="range" min="1" max="{{max}}" value="1" class="slider" id="buyRange" name="buyRange">
+              </div>
+        </div>
+        <br>
+        {% if max == 0 %}
+            <button type="submit" class="btn-hover color-7" style="width:250px; opacity:50%;" id="buyDisabled" disabled>Insufficient Funds</button>
+        {% else %}
+            <button type="submit" class="btn-hover color-7" style="width:250px;" id="buyConfirm">Confirm Buy (1 stock)</button>
+        {% endif %}
+    </form>
+</div>
+<script>
+    var slider = document.getElementById("buyRange");
+    try {
+        var output = document.getElementById("buyConfirm");
+        if (slider.value == 1) {
+            output.innerHTML = "Confirm Buy (" + slider.value + " stock)";
+        } else {
+            output.innerHTML = "Confirm Buy (" + slider.value + " stocks)";
+        }
+    } catch(err) {}
+    
+    slider.oninput = function() {
+        if (slider.value == 1) {
+        output.innerHTML = "Confirm Buy (" + slider.value + " stock)";
+        } else {
+            output.innerHTML = "Confirm Buy (" + slider.value + " stocks)";
+        }
+    }
+    </script>
+{% endblock %}
+{% block helpTitle %}Buying Stocks{% endblock %}
+{% block description %}This is where you buy stocks. You can only buy as many stocks as you can afford from the cash you have. This is NOT your net worth. Instead, you can find it under your <a href="/dash">dashboard</a> with the heading "Buying Power." Once you buy a stock, it'll be listed in you account. As other people trade the stock, its price will fluctuate. For example, if you bought a stock at ⓢ 10, and it drops to ⓢ 5, then you'll have lost ⓢ 5 for each of that stock you own. However, the stock price can also go up, taking your account valuation with it. But remember, you don't actually have that money until you <a href="/sell{{company.tag}}">sell</a> the stock, so be careful.{% endblock %}

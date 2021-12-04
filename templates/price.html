@@ -1,0 +1,19 @@
+<style>
+        p {
+            {% if company.price > company.prices[0] %}
+            color:#90EE93;
+            {% endif %}
+            {% if company.price == company.prices[0] %}
+            color:white;
+            {% endif %}
+            {% if company.price < company.prices[0] %}
+            color:#ff6347;
+            {% endif %}
+        }
+</style>
+<h1 style="font-family: Arial, serif; color:white;">{{company.tag}}</h5>
+<h4 style="font-family: Arial, serif; color:white;">{{company.name}}</h6>
+<p style="font-family: Arial, serif;">ⓢ {{(company.price * 100)|round/100}}</p>
+<p style="font-family: Arial, serif;">{{((company.price - company.prices[0])*100/company.prices[0]*100)|round/100}}%</p>
+<p style="font-family: Arial, serif; color:white">{{company.open}} stocks available out of {{company.volume}} stocks total</p>
+<meta http-equiv="refresh" content="1"/>

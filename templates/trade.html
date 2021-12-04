@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Trade{% endblock %}
+{% block content %}
+{% for company in companies %}
+<div class="container-fluid" data-aos="flip-up">
+    <embed src="{{company.url}}" style="width:100%; height: 215px; margin-top:10px; margin-left:10px;"></embed>
+    <div style="margin-left:10px;">
+        <a href="/buy{{company.tag}}" style="margin-right:10px;">
+            <button class="btn-hover color-7">Buy</button>
+        </a>
+        <a href="/sell{{company.tag}}">
+            <button class="btn-hover color-7">Sell</button>
+        </a>
+    </div>
+</div>
+{% endfor %}
+&nbsp;
+{% endblock %}
+{% block helpTitle %}Trading{% endblock %}
+{% block description %}For anyone who doesn't know how the stock market works, - frankly, I doubt anyone does - the entire system is based on supply and demand. When more people want a stock, the limited supply means that they bid higher and higher. That's why stock prices go up. When there's more supply than demand, those buyers have no reason to bid higher. So, the stock price drops. Our system works in a similar way. When more people buy a stock, the price goes up. When more people sell a stock, the price goes down. It is a bit different because the change in price happens AFTER the transaction, not in the bidding process before. However, it still simulates the concepts of supply and demand. To trade on your own account, click the "Buy" and "Sell" buttons. You can only buy as many stocks as you can afford upfront. You can find your cash in your <a href="/dash">dashboard</a>. Of course, you can't sell what you don't have, so you can only sell the stocks that you currently own. You can find the stocks you own by clicking the ↯ on your <a href="/dash">dashboard</a>.{% endblock %}
