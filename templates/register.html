@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Register{% endblock %}
 {% block content %}
+<style>
+  .terms {
+    border: none;
+    background-color: transparent;
+    color:white;
+    text-decoration: underline;
+  }
+</style>
 <div class="container-fluid">
     <form style="margin:10px;" method="POST">
       <div class="form-group">
@@ -15,10 +23,44 @@
         <label for="password">Confirm Password</label>
         <input type="password" class="form-control" id="confirm_password" placeholder="Password" name="password" required>
       </div>
-      <button type="submit" class="btn-hover color-1">Register</button>
+      <input type="checkbox" id="terms-check" name="terms-check" onclick="register.disabled=Math.abs(Math.floor(this.checked-0.5)); register.style.opacity=this.checked+0.5">
+      <label for="terms-check"> I have read and agree to the<button class="terms" onclick="document.getElementById('id02').style.display='block'">Terms and Conditions/Privacy Policy</button></label><br>
+      <button type="submit" class="btn-hover color-1" id="register" style="opacity:0.5" disabled>Register</button>
       <br>
       <a href="/login/{{ redirect }}"><sub>Already have an account? Login here!</sub></a>
     </form>
+</div>
+<div class="w3-container">
+  <div id="id02" class="w3-modal">
+      <div class="w3-modal-content w3-animate-top w3-card-4">
+        <header class="w3-container w3-teal"> 
+          <span onclick="document.getElementById('id02').style.display='none'" 
+          class="w3-button w3-display-topright">&times;</span>
+          <h2 style="margin-top:10px; margin-bottom:10px;">Terms and Conditions/Privacy Policy</h2>
+        </header>
+        <div class="w3-container">
+          <p style="color:black; text-align:left; font-size: 100%; margin-top:10px; margin-bottom:10px;">
+            <u>Terms and Conditions</u>
+            <br/>
+            By using Stonsky (the App), you are agreeing to the following conditions:
+            <ul style="color:black; text-align:left; font-size: 100%; margin-top:10px; margin-bottom:10px;">
+              <li>You will not use automated algorithms to artificially inflate your app balance.</li>
+              <li>You will not use electronic or digital tools to artificially affect the App.</li>
+              <li>You will use the app only for its explicitly denoted purposes.</li>
+            </ul>
+            <br/>
+            <u style="color:black; text-align:left; font-size: 100%; margin-top:10px; margin-bottom:10px;">Privacy Policy</u>
+            <br/>
+            <p style="color:black; text-align:left; font-size: 100%; margin-top:10px; margin-bottom:10px;">The following information will be collected and stored by Stonksy (the App)</p>
+            <ul style="color:black; text-align:left; font-size: 100%; margin-top:10px; margin-bottom:10px;">
+              <li>Your username and password</li>
+              <li>Your account balance, stocks, and other related data.</li>
+              <li>Your trading history.</li>
+            </ul>
+          </p>
+        </div>
+      </div>
+    </div>
 </div>
 <script>
     var password = document.getElementById("password")
